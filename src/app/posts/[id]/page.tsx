@@ -1,3 +1,11 @@
+'use client'
+
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
+
 export default function PostDetail() {
-  return <>게시글 상세</>
+  const { id } = useParams()
+  useState({})
+
+  return <>{id}번 게시글 상세</>
 }
