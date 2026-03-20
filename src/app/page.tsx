@@ -1,25 +1,16 @@
 'use client'
 
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
   const [posts, setPosts] = useState([])
 
-  useEffect(() => {
-    fetch('https://dummyjson.com/posts')
-      .then((res) => res.json())
-      .then((res) => setPosts(res.posts))
-  }, [])
+  useEffect(() => {}, [])
   return (
     <ul>
-      {posts.map((post) => (
-        <li key={post.id}>
-          <Link href={'posts/${post.id'}>
-            {post.id} / {post.title}
-          </Link>
-        </li>
-      ))}
+      <li>내용1</li>
+      <li>내용2</li>
+      <li>내용3</li>
     </ul>
   )
 }
