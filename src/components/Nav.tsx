@@ -4,23 +4,16 @@ import Link from 'next/link'
 
 import { supabase } from '@/lib/supabase'
 import { User } from '@supabase/supabase-js'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function Nav() {
   const [user, setUser] = useState<User | null>(null)
-
-  const fetchUser = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-    console.log(user)
-    setUser(user)
-  }
+  const router = useRouter()
 
   useEffect(() => {
-    fetchUser()
-
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('event', event)
       setUser(session?.user ?? null)
     })
 
@@ -35,6 +28,7 @@ export default function Nav() {
       alert(error.message)
     } else {
       alert('로그아웃 성공')
+      router.push('/signIn')
     }
   }
 
@@ -47,18 +41,21 @@ export default function Nav() {
         게시물 목록
       </Link>
       {user ? (
-        <button
-          onClick={handleOnLogout}
-          className="p-2 rounded hover:bg-gray-200"
-        >
-          로그아웃
-        </button>
+        <>
+          <div className="p-2 rounded">{user.email}님 반갑습니다!</div>
+          <button
+            onClick={handleOnLogout}
+            className="p-2 rounded hover:bg-gray-200"
+          >
+            로그아웃
+          </button>
+        </>
       ) : (
         <>
           <Link href="/signup" className="p-2 rounded hover:bg-gray-200">
             회원가입
           </Link>
-          <Link href="/signin" className="p-2 rounded hover:bg-gray-200">
+          <Link href="/signIn" className="p-2 rounded hover:bg-gray-200">
             로그인
           </Link>
         </>

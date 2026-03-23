@@ -1,11 +1,13 @@
 'use client'
 
 import { supabase } from '@/lib/supabase'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function Signup() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const router = useRouter()
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -17,6 +19,7 @@ export default function Signup() {
       alert(error.message)
     } else {
       alert('로그인 성공')
+      router.push('/')
     }
     console.log(email, password)
   }
