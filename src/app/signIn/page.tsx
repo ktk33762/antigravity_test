@@ -9,11 +9,14 @@ export default function Signup() {
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const { data, error } = await supabase.auth.signUp({ email, password })
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
     if (error) {
       alert(error.message)
     } else {
-      alert('회원가입 성공')
+      alert('로그인 성공')
     }
     console.log(email, password)
   }
