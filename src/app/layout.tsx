@@ -1,6 +1,6 @@
+import Nav from '@/components/Nav'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import Link from 'next/link'
 import './globals.css'
 
 const geistSans = Geist({
@@ -30,14 +30,7 @@ export default function RootLayout({
     >
       <body className="p-2">
         <header>
-          <nav className="flex">
-            <Link href="/" className="p-2 hover:bg-red-200">
-              메인
-            </Link>
-            <Link href="/posts" className="p-2 hover:bg-red-200">
-              게시물 목록
-            </Link>
-          </nav>
+          <Nav />
         </header>
         {children}
         <footer className="p-2">푸터</footer>
