@@ -49,6 +49,9 @@ export default function Nav() {
           >
             로그아웃
           </button>
+          <Link href="/posts/new" className="p-2 rounded hover:bg-gray-200">
+            게시글 등록
+          </Link>
         </>
       ) : (
         <>
@@ -57,6 +60,9 @@ export default function Nav() {
           </Link>
           <Link href="/signIn" className="p-2 rounded hover:bg-gray-200">
             로그인
+          </Link>
+          <Link href="/posts/new" className="p-2 rounded hover:bg-gray-200">
+            게시글 등록
           </Link>
         </>
       )}
