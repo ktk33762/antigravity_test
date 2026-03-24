@@ -44,6 +44,15 @@ export default function PostDetail() {
       router.push('/posts')
     }
   }
+  const handleOnDeleteComment = async (id: number) => {
+    const { error } = await supabase.from('comments').delete().eq('id', id)
+    if (error) {
+      alert(error.message)
+    } else {
+      alert('삭제 성공')
+      fetchComment()
+    }
+  }
 
   const handleOnSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -79,7 +88,15 @@ export default function PostDetail() {
       </form>
       <ul>
         {comments.map((comment) => (
-          <li key={comment.id}>{comment.content}</li>
+          <li key={comment.id}>
+            {comment.content}
+            <button
+              className="p-2 rounded border-1 hover:bg-gray-200"
+              onClick={() => handleOnDeleteComment(comment.id)}
+            >
+              X
+            </button>
+          </li>
         ))}
       </ul>
       <button
