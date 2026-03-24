@@ -17,7 +17,7 @@ export default function PostDetail() {
   const router = useRouter()
   const [post, setPost] = useState({})
   const [comments, setComments] = useState([])
-
+  const [comment, setComment] = useState<string>('')
   const fetchPost = async () => {
     const { data: post, error } = await supabase
       .from('posts')
@@ -45,6 +45,20 @@ export default function PostDetail() {
     }
   }
 
+  const handleOnSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const { data, error } = await supabase
+      .from('comments')
+      .insert([{ content: comment, post_id: id }])
+    if (error) {
+      alert(error.message)
+    } else {
+      alert('댓글 작성 성공')
+      setComment('')
+      fetchComment()
+    }
+  }
+
   useEffect(() => {
     fetchPost()
     fetchComment()
@@ -55,6 +69,14 @@ export default function PostDetail() {
       <div>{post.id}번 게시글 상세</div>
       <div>{post.title}</div>
       <div>{post.content}</div>
+      <form onSubmit={handleOnSubmit}>
+        <input
+          type="text"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <button type="submit">댓글 작성</button>
+      </form>
       <ul>
         {comments.map((comment) => (
           <li key={comment.id}>{comment.content}</li>
