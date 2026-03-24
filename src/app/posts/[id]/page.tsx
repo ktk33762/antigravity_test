@@ -1,7 +1,7 @@
 'use client'
 
 import { supabase } from '@/lib/supabase'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 interface Post {
@@ -13,6 +13,7 @@ interface Post {
 
 export default function PostDetail() {
   const { id } = useParams()
+  const router = useRouter()
   const [post, setPost] = useState({})
   const [comments, setComments] = useState([])
 
@@ -33,6 +34,16 @@ export default function PostDetail() {
     setComments(comment)
   }
 
+  const handleOnDelete = async (id: number) => {
+    const { error } = await supabase.from('posts').delete().eq('id', id)
+    if (error) {
+      alert(error.message)
+    } else {
+      alert('삭제 성공')
+      router.push('/posts')
+    }
+  }
+
   useEffect(() => {
     fetchPost()
     fetchComment()
@@ -48,6 +59,12 @@ export default function PostDetail() {
           <li key={comment.id}>{comment.content}</li>
         ))}
       </ul>
+      <button
+        className="p-2 rounded border-1 hover:bg-gray-200"
+        onClick={() => handleOnDelete(post.id)}
+      >
+        삭제
+      </button>
     </>
   )
 }
